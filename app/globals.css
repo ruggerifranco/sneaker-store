@@ -2,32 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
+/* Estilos básicos */
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: #fff;
+  color: #333;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Modo oscuro */
+html.dark body {
+  background-color: #1a202c;
+  color: #edf2f7;
+}
+
+/* Ejemplo de cómo usar Tailwind en otros elementos */
+.bg-gray-800 {
+  background-color: #2d3748;
+}
+
+.text-gray-100 {
+  color: #f7fafc;
+}
+
+.dark .bg-gray-800 {
+  background-color: #1a202c;
+}
+
+.dark .text-gray-100 {
+  color: #edf2f7;
 }
