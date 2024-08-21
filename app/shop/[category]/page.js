@@ -1,16 +1,19 @@
-'use client'
 import ProductList from '@/app/components/ProductList';
-import mockData from '@/app/data/mockData';
-import { useParams } from 'next/navigation';
 import React from 'react'
 
-const Category = () => {
-    const { category } = useParams();
-    const filterData = category === 'all' ? mockData : mockData.filter((item) => item.category.toLowerCase() === category.toLowerCase())
+const getProducts = async (category) => {
+    const data = await fetch(`http://localhost:3000/api/productos/${category}`)
+    const productos = await data.json();
+    return productos;
+}
+
+const Category = async  ({ params }) => {
+    const { category } = params;
+    const products = await getProducts(category)
 
     return (
         <>
-            <ProductList category={category} data={filterData} />
+            <ProductList category={category} data={products} />
         </>
     )
 }
