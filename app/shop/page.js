@@ -1,4 +1,5 @@
 import ProductList from '@/app/components/ProductList';
+import AddProducts from '../components/AddProducts';
 
 const Home = async () => {
     const res = await fetch('http://localhost:3000/api/productos', {
