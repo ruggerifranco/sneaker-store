@@ -1,10 +1,16 @@
-import ProductList from "../components/ProductList";
-import mockData from "../data/mockData";
+import ProductList from '@/app/components/ProductList';
 
-export default function Home() {
-  return (
-    <>
-      <ProductList data={mockData} category={'all'} />
-    </>
-  );
-}
+const Home = async () => {
+    const res = await fetch('http://localhost:3000/api/productos', {
+        cache: 'no-store',  
+    });
+    const products = await res.json();
+
+    return (
+        <>
+            <ProductList category={'all'} data={products} />
+        </>
+    );
+};
+
+export default Home;
