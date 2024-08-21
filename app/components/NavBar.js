@@ -3,13 +3,17 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ThemeToggle from './ThemeToggle';
-import { usePathname } from 'next/navigation'; 
+import { usePathname } from 'next/navigation';
 
 const menuItems = [
   { href: "/shop", label: "Tienda" },
   { href: "/admin", label: "Admin" },
   { href: "/contact", label: "Contacto" },
-  { href: "/cart", label: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l1 9h11l1-9h2M4 14h12m-6 4h6"></path></svg> }
+  { href: "/cart", label: (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l1 9h11l1-9h2M4 14h12m-6 4h6"></path>
+    </svg>
+  )}
 ];
 
 const menuItemsMobile = [
@@ -20,21 +24,21 @@ const menuItemsMobile = [
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="bg-gray-800 text-white relative">
+    <nav className="bg-gray-800 text-white dark:bg-gray-900 dark:text-gray-100 relative">
       <div className="container mx-auto flex justify-between items-center p-4">
         <div className="flex items-center">
           <Link href="/">
-              <Image 
-                src="/sneaker-logo.png" 
-                alt="Logo de la app" 
-                width={150} 
-                height={150} 
-              />
+            <Image 
+              src="/sneaker-logo.png" 
+              alt="Logo de la app" 
+              width={150} 
+              height={150} 
+            />
           </Link>
         </div>
         <div className="hidden md:flex space-x-4">
@@ -43,7 +47,7 @@ const NavBar = () => {
             <Link 
               key={index} 
               href={item.href} 
-              className={`px-3 py-2 rounded ${pathname === item.href ? 'bg-gray-700' : 'hover:bg-gray-700'}`}
+              className={`px-3 py-2 rounded ${pathname.startsWith(item.href) ? 'bg-gray-700 dark:bg-gray-600' : 'hover:bg-gray-700 dark:hover:bg-gray-600'}`}
             >
               {item.label}
             </Link>
@@ -64,7 +68,7 @@ const NavBar = () => {
         </div>
       </div>
 
-      <div className={`fixed inset-y-0 right-0 bg-gray-800 text-white transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out md:hidden w-64`}>
+      <div className={`fixed inset-y-0 right-0 bg-gray-800 text-white dark:bg-gray-900 dark:text-gray-100 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out md:hidden w-64`}>
         <div className="flex justify-end p-4">
           <button onClick={toggleMenu}>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +81,7 @@ const NavBar = () => {
             <Link 
               key={index} 
               href={item.href} 
-              className={`px-3 py-2 rounded ${pathname === item.href ? 'bg-gray-700' : 'hover:bg-gray-700'}`} 
+              className={`px-3 py-2 rounded ${pathname.startsWith(item.href) ? 'bg-gray-700 dark:bg-gray-600' : 'hover:bg-gray-700 dark:hover:bg-gray-600'}`} 
               onClick={toggleMenu}
             >
               {item.label}
@@ -90,4 +94,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-

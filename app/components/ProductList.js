@@ -3,7 +3,7 @@ import ProductCard from "./ProductCard";
 const ProductList = ({ data, category }) => {
 
   if (!data || data.length === 0) {
-    return <div>No products available</div>;
+    return <div className="text-center text-gray-500 dark:text-gray-400">No products available</div>;
   }
 
   return (
