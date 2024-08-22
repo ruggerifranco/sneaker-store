@@ -1,64 +1,91 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ThemeToggle from './ThemeToggle';
 import { usePathname } from 'next/navigation';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
-
-const menuItems = [
-  { href: "/shop", label: "Tienda" },
-  { href: "/admin", label: "Admin" },
-  { href: "/contact", label: "Contacto" },
-  { href: "/cart", label: (
-    <ShoppingCartIcon className="h-5 w-5" aria-hidden="true" />
-  )}
-];
-
-const menuItemsMobile = [
-  { href: "/shop", label: "Tienda" },
-  { href: "/admin", label: "Admin" },
-  { href: "/contact", label: "Contacto" },
-];
+import { useCartContext } from '../context/CartContext';
+import CartMenu from './CartMenu';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const pathname = usePathname();
+  const { getTotalQuantity } = useCartContext();
+  const cartCount = getTotalQuantity();
+
+  useEffect(() => {
+    if (pathname === '/cart') {
+      setIsCartOpen(false);
+    }
+  }, [pathname]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleCartMenu = () => setIsCartOpen(!isCartOpen);
+
+  const menuItems = [
+    { href: "/shop", label: "Tienda" },
+    { href: "/admin", label: "Admin" },
+    { href: "/contact", label: "Contacto" },
+  ];
+
+  const menuItemsMobile = [
+    { href: "/shop", label: "Tienda" },
+    { href: "/admin", label: "Admin" },
+    { href: "/contact", label: "Contacto" },
+  ];
 
   return (
     <nav className="bg-gray-800 text-white dark:bg-gray-900 dark:text-gray-100 relative">
       <div className="container mx-auto flex justify-between items-center p-4">
         <div className="flex items-center">
           <Link href="/">
-            <Image 
-              src="/sneaker-logo.png" 
-              alt="Logo de la app" 
-              width={150} 
-              height={150} 
+            <Image
+              src="/sneaker-logo.png"
+              alt="Logo de la app"
+              width={150}
+              height={150}
+              className="transition-transform transform hover:scale-105"
             />
           </Link>
         </div>
         <div className="hidden md:flex space-x-4">
           <ThemeToggle />
           {menuItems.map((item, index) => (
-            <Link 
-              key={index} 
-              href={item.href} 
+            <Link
+              key={index}
+              href={item.href}
               className={`px-3 py-2 rounded ${pathname.startsWith(item.href) ? 'bg-gray-700 dark:bg-gray-600' : 'hover:bg-gray-700 dark:hover:bg-gray-600'}`}
             >
               {item.label}
             </Link>
           ))}
+          <div
+            className="relative flex items-center cursor-pointer transition-transform transform hover:scale-105"
+            onClick={toggleCartMenu}
+          >
+            <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
+            {cartCount > 0 && (
+              <span className="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-1 transform translate-x-1 translate-y-1">
+                {cartCount}
+              </span>
+            )}
+          </div>
         </div>
         <div className="md:hidden flex items-center space-x-4">
           <ThemeToggle />
-          <Link href="/cart" className="flex items-center p-2">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l1 9h11l1-9h2M4 14h12m-6 4h6"></path>
-            </svg>
-          </Link>
+          <div
+            className="relative flex items-center cursor-pointer transition-transform transform hover:scale-105"
+            onClick={toggleCartMenu}
+          >
+            <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
+            {cartCount > 0 && (
+              <span className="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold rounded-full px-2 py-1 transform translate-x-1 translate-y-1">
+                {cartCount}
+              </span>
+            )}
+          </div>
           <button className="flex items-center p-2" onClick={toggleMenu}>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -66,6 +93,8 @@ const NavBar = () => {
           </button>
         </div>
       </div>
+
+      <CartMenu isOpen={isCartOpen} onClose={toggleCartMenu} />
 
       <div className={`fixed inset-y-0 right-0 bg-gray-800 text-white dark:bg-gray-900 dark:text-gray-100 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out md:hidden w-64`}>
         <div className="flex justify-end p-4">
@@ -77,10 +106,10 @@ const NavBar = () => {
         </div>
         <div className="flex flex-col space-y-4 p-4">
           {menuItemsMobile.map((item, index) => (
-            <Link 
-              key={index} 
-              href={item.href} 
-              className={`px-3 py-2 rounded ${pathname.startsWith(item.href) ? 'bg-gray-700 dark:bg-gray-600' : 'hover:bg-gray-700 dark:hover:bg-gray-600'}`} 
+            <Link
+              key={index}
+              href={item.href}
+              className={`px-3 py-2 rounded ${pathname.startsWith(item.href) ? 'bg-gray-700 dark:bg-gray-600' : 'hover:bg-gray-700 dark:hover:bg-gray-600'}`}
               onClick={toggleMenu}
             >
               {item.label}

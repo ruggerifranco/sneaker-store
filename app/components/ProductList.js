@@ -1,7 +1,12 @@
 import ProductCard from "./ProductCard";
+import SkeletonLoader from "./SkeletonLoader"; 
 
 const ProductList = ({ data, category }) => {
-  if (!data || data.length === 0) {
+  if (!data) {
+    return <SkeletonLoader />;
+  }
+
+  if (data.length === 0) {
     return <div className="text-center text-gray-500 dark:text-gray-400">No products available</div>;
   }
 
