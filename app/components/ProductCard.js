@@ -1,7 +1,11 @@
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ShoppingCartIcon } from '@heroicons/react/outline'; 
+import { useCartContext } from '../context/cartContext';
 
 const ProductCard = ({ product }) => {
+  const { addToCart } = useCartContext()
   return (
     <Link 
       href={`/product/${product.id}`} 
@@ -26,6 +30,14 @@ const ProductCard = ({ product }) => {
         <p className="text-gray-700 dark:text-gray-300 mb-2 flex-grow truncate">{product.description}</p>
         <p className="text-gray-600 dark:text-gray-400 mb-1">Marca: <span className="font-semibold">{product.brand}</span></p>
         <p className="text-gray-600 dark:text-gray-400">Categoría: <span className="font-semibold">{product.category}</span></p>
+
+        <button
+          className="mt-4 flex items-center px-4 py-2 bg-indigo-600 dark:bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-400 transition-colors duration-300"
+          // onClick={}
+        >
+          <ShoppingCartIcon className="h-5 w-5 mr-2" aria-hidden="true" />
+          Agregar al carrito
+        </button>
       </div>
     </Link>
   );

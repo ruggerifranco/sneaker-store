@@ -14,7 +14,6 @@ html.dark body {
   color: #edf2f7;
 }
 
-/* Ejemplo de cómo usar Tailwind en otros elementos */
 .bg-gray-800 {
   background-color: #2d3748;
 }

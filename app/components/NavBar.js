@@ -4,15 +4,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ThemeToggle from './ThemeToggle';
 import { usePathname } from 'next/navigation';
+import { ShoppingCartIcon } from '@heroicons/react/outline';
 
 const menuItems = [
   { href: "/shop", label: "Tienda" },
   { href: "/admin", label: "Admin" },
   { href: "/contact", label: "Contacto" },
   { href: "/cart", label: (
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l1 9h11l1-9h2M4 14h12m-6 4h6"></path>
-    </svg>
+    <ShoppingCartIcon className="h-5 w-5" aria-hidden="true" />
   )}
 ];
 
