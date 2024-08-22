@@ -39,8 +39,9 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const getTotalQuantity = () => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
+  const getTotalQuantity = (productId) => {
+    const product = cart.find((item) => item.id === productId);
+    return product ? product.quantity : 0;
   };
 
   const getTotal = () => {
