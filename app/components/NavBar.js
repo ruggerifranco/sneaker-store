@@ -26,14 +26,14 @@ const NavBar = () => {
 
   const menuItems = [
     { href: "/shop", label: "Tienda" },
-    { href: "/admin", label: "Admin" },
     { href: "/contact", label: "Contacto" },
+    { href: "/admin", label: "Admin" },
   ];
 
   const menuItemsMobile = [
     { href: "/shop", label: "Tienda" },
-    { href: "/admin", label: "Admin" },
     { href: "/contact", label: "Contacto" },
+    { href: "/admin", label: "Admin" },
   ];
 
   return (
@@ -96,7 +96,7 @@ const NavBar = () => {
 
       <CartMenu isOpen={isCartOpen} onClose={toggleCartMenu} />
 
-      <div className={`fixed inset-y-0 right-0 bg-gray-800 text-white dark:bg-gray-900 dark:text-gray-100 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out md:hidden w-64`}>
+      <div className={`fixed inset-y-0 right-0 bg-gray-800 text-white dark:bg-gray-900 dark:text-gray-100 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out md:hidden w-64`} style={{ zIndex: 9999 }}>
         <div className="flex justify-end p-4">
           <button onClick={toggleMenu}>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
