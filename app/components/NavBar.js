@@ -27,12 +27,14 @@ const NavBar = () => {
   const menuItems = [
     { href: "/shop", label: "Tienda" },
     { href: "/contact", label: "Contacto" },
+    { href: "/aboutUs", label: "Nosotros" },
     { href: "/admin", label: "Admin" },
   ];
 
   const menuItemsMobile = [
     { href: "/shop", label: "Tienda" },
     { href: "/contact", label: "Contacto" },
+    { href: "/aboutUs", label: "Nosotros" },
     { href: "/admin", label: "Admin" },
   ];
 
