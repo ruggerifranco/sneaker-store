@@ -1,7 +1,28 @@
 import ProductList from '@/app/components/ProductList';
 import React from 'react';
 
+
+export async function generateMetadata({ params, searchParams }, parent) {
+    return {
+        title: `Sneaker Store - ${params.category}`,
+    }
+}
+
+export function generateStaticParams() {
+    return [
+        { category: 'todas' },
+        { category: 'deportivas' },
+        { category: 'running' },
+        { category: 'urbanas' },
+        { category: 'entrenamiento' },
+        { category: 'casuales' }
+    ]
+}
+
+export const revalidate = 3600;
+
 const getProducts = async (category) => {
+
     const data = await fetch(`http://localhost:3000/api/productos/${category}`, {
         cache: 'no-store'
     });

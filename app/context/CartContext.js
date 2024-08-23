@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 export const CartContext = createContext();
 
@@ -39,9 +39,13 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const getTotalQuantity = (productId) => {
+  const getTotalQuantityId = (productId) => {
     const product = cart.find((item) => item.id === productId);
     return product ? product.quantity : 0;
+  };
+
+  const getTotalQuantity = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
   const getTotal = () => {
@@ -49,7 +53,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getTotalQuantity, getTotal }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, getTotalQuantity, getTotal, getTotalQuantityId }}>
       {children}
     </CartContext.Provider>
   );

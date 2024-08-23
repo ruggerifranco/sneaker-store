@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useCartContext } from '../context/CartContext';
 
 const CartMenu = ({ isOpen, onClose }) => {
-  const { cart, removeFromCart, getTotal, getTotalQuantity } = useCartContext();
+  const { cart, removeFromCart, getTotal, getTotalQuantityId } = useCartContext();
 
   return (
     <div className={`fixed inset-y-0 right-0 bg-gray-800 text-white dark:bg-gray-900 dark:text-gray-100 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out w-80`} style={{ zIndex: 9999 }}>
@@ -27,7 +27,7 @@ const CartMenu = ({ isOpen, onClose }) => {
                 )}
                 <div className="flex-1 flex justify-between items-center space-x-2">
                   <div className="flex-1">
-                    <span className="block text-sm">{item.name} (x{getTotalQuantity(item.id)})</span>
+                    <span className="block text-sm">{item.name} (x{getTotalQuantityId(item.id)})</span>
                     <span className="block text-xs text-gray-400">${(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                   <button
