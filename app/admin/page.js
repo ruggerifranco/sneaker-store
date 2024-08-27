@@ -1,12 +1,13 @@
-'use client'
-import React, { useEffect, useState } from 'react';
+'use client';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { collection, getDocs, setDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProductForm from '../components/ProductForm';
-import ProductTable from '../components/ProductTable';
-import SkeletonTable from '../components/SkeletonTable';
+
+const ProductTable = lazy(() => import('../components/ProductTable'));
+const SkeletonTable = lazy(() => import('../components/SkeletonTable'));
 
 const AdminPage = () => {
     const [products, setProducts] = useState([]);
@@ -83,15 +84,17 @@ const AdminPage = () => {
                 onCancel={() => setSelectedProduct(null)}
             />
 
-            {loading ? (
-                <SkeletonTable />  
-            ) : (
-                <ProductTable 
-                    products={products}
-                    onEdit={(product) => setSelectedProduct(product)}
-                    onDelete={handleDeleteProduct}
-                />
-            )}
+            <Suspense fallback={ <SkeletonTable />  }>
+                {loading ? (
+                    <SkeletonTable />  
+                ) : (
+                    <ProductTable 
+                        products={products}
+                        onEdit={(product) => setSelectedProduct(product)}
+                        onDelete={handleDeleteProduct}
+                    />
+                )}
+            </Suspense>
         </div>
     );
 };
