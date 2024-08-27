@@ -1,9 +1,12 @@
 'use client';
 import React from 'react';
 import { useCartContext } from '../context/CartContext';
+import { useRouter } from 'next/navigation';
+import Button from '../components/Button';
 
 const Cart = () => {
     const { cart, removeFromCart } = useCartContext();
+    const router = useRouter();
 
     const getTotal = () => {
         return cart.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -13,10 +16,21 @@ const Cart = () => {
         removeFromCart(productId);
     };
 
+    const handleCheckout = () => {
+        router.push('/checkout'); 
+    };
+
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
             <div className="container mx-auto py-8 px-4">
-                <h1 className="text-2xl font-bold mb-6">Carrito de Compras</h1>
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-2xl font-bold">Carrito de Compras</h1>
+                    <Button
+                        onClick={() => router.back()}
+                    >
+                        Volver
+                    </Button>
+                </div>
 
                 {cart.length === 0 ? (
                     <p className="text-lg">Tu carrito está vacío.</p>
@@ -45,7 +59,10 @@ const Cart = () => {
                         ))}
                         <div className="mt-6 flex justify-between items-center">
                             <p className="text-xl font-bold">Total: ${getTotal().toFixed(2)}</p>
-                            <button className="bg-blue-500 text-white py-2 px-4 rounded-md shadow hover:bg-blue-600 transition duration-300">
+                            <button
+                                className="bg-blue-500 text-white py-2 px-4 rounded-md shadow hover:bg-blue-600 transition duration-300"
+                                onClick={handleCheckout}
+                            >
                                 Proceder al Pago
                             </button>
                         </div>

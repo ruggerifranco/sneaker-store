@@ -1,9 +1,15 @@
 'use client';
 import Link from 'next/link';
 import { useCartContext } from '../context/CartContext';
+import { useRouter } from 'next/navigation';
 
 const CartMenu = ({ isOpen, onClose }) => {
   const { cart, removeFromCart, getTotal, getTotalQuantityId } = useCartContext();
+  const router = useRouter()
+
+  const handleCheckout = () => {
+    router.push('/checkout');
+  }
 
   return (
     <div className={`fixed inset-y-0 right-0 bg-gray-800 text-white dark:bg-gray-900 dark:text-gray-100 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-in-out w-80`} style={{ zIndex: 9999 }}>
@@ -49,7 +55,9 @@ const CartMenu = ({ isOpen, onClose }) => {
                   Ver Carrito
                 </button>
               </Link>
-              <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
+              <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full"
+                onClick={handleCheckout}
+              >
                 Proceder con el Pago
               </button>
             </div>
