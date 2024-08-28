@@ -1,39 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Swal from 'sweetalert2';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '@/firebase/config';
+import { FaFileUpload } from 'react-icons/fa';
 
 const ProductForm = ({ product, onSave, onCancel }) => {
     const [formData, setFormData] = useState({
-        id: 0,
+        id: '',
         name: '',
         category: '',
-        price: 0,
+        price: '',
         brand: '',
         description: '',
         image: ''
     });
+    const [imageFile, setImageFile] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (product) {
             setFormData({
-                id: product.id || null,
+                id: product.id || '',
                 name: product.name || '',
                 category: product.category || '',
-                price: product.price || null,
+                price: product.price || '',
                 brand: product.brand || '',
                 description: product.description || '',
                 image: product.image || ''
             });
+            setImageFile(null);
+            fileInputRef.current.value = '';
         } else {
             setFormData({
-                id: 0,
+                id: '',
                 name: '',
                 category: '',
-                price: 0,
+                price: '',
                 brand: '',
                 description: '',
                 image: ''
             });
+            setImageFile(null);
+            fileInputRef.current.value = '';
         }
     }, [product]);
 
@@ -42,11 +51,29 @@ const ProductForm = ({ product, onSave, onCancel }) => {
         setFormData(prevData => ({ ...prevData, [name]: value }));
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSaving(true);
+
         try {
-            await onSave(formData);
+            let imageUrl = formData.image;
+
+            if (imageFile) {
+                const imageRef = ref(storage, `images/${imageFile.name}`);
+                const snapshot = await uploadBytes(imageRef, imageFile);
+                imageUrl = await getDownloadURL(snapshot.ref);
+            }
+
+            const productData = { ...formData, image: imageUrl };
+            await onSave(productData);
+
             Swal.fire({
                 icon: 'success',
                 title: '¡Éxito!',
@@ -61,6 +88,7 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                 description: '',
                 image: ''
             });
+            setImageFile(null);
         } catch (error) {
             Swal.fire({
                 icon: 'error',
@@ -82,6 +110,8 @@ const ProductForm = ({ product, onSave, onCancel }) => {
             description: '',
             image: ''
         });
+        setImageFile(null);
+        fileInputRef.current.value = '';
         onCancel();
     };
 
@@ -98,7 +128,7 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                         placeholder='ID del Producto'
                         value={formData.id}
                         onChange={handleChange}
-                        className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black'
+                        className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
                         required
                         disabled={isSaving}
                     />
@@ -109,7 +139,7 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                     placeholder='Nombre'
                     value={formData.name}
                     onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black'
+                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
                     required
                     disabled={isSaving}
                 />
@@ -119,7 +149,7 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                     placeholder='Categoría'
                     value={formData.category}
                     onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black'
+                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
                     required
                     disabled={isSaving}
                 />
@@ -129,7 +159,7 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                     placeholder='Marca'
                     value={formData.brand}
                     onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black'
+                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
                     required
                     disabled={isSaving}
                 />
@@ -138,27 +168,32 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                     placeholder='Descripción'
                     value={formData.description}
                     onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black'
+                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
                     required
                     disabled={isSaving}
                 />
-                <input
-                    type='text'
-                    name='image'
-                    placeholder='URL de Imagen'
-                    value={formData.image}
-                    onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black'
-                    required
-                    disabled={isSaving}
-                />
+   
+                    <input
+                        type='file'
+                        id='image'
+                        name='image'
+                        onChange={handleFileChange}
+                        className='hidden'
+                        ref={fileInputRef}
+                        disabled={isSaving}
+                    />
+                    <label htmlFor='image' className='flex items-center cursor-pointer p-2 border rounded bg-blue-500 hover:bg-blue-600 text-white dark:bg-gray-800 dark:hover:bg-gray-700 w-full mt-2'>
+                        <FaFileUpload className='mr-2' />
+                        {imageFile ? imageFile.name : (formData.image ? 'Cambiar Imagen' : 'Seleccionar Imagen')}
+                    </label>
+               
                 <input
                     type='number'
                     name='price'
                     placeholder='Precio'
                     value={formData.price}
                     onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black'
+                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
                     required
                     disabled={isSaving}
                 />
@@ -175,8 +210,7 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                     onClick={handleCancel}
                     className='p-2 rounded bg-red-500 hover:bg-red-600 text-white transition-colors'
                     disabled={isSaving}
-                >
-                    Cancelar
+                > Cancelar
                 </button>
             </form>
         </div>
@@ -184,5 +218,3 @@ const ProductForm = ({ product, onSave, onCancel }) => {
 };
 
 export default ProductForm;
-
-
