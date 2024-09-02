@@ -15,8 +15,7 @@ const Checkout = () => {
     };
 
     const onSubmit = async (data) => {
-        console.log('Payment Data:', data);
-        clearCart();  // Limpiar el carrito
+        clearCart();  
 
         await Swal.fire({
             title: '¡Compra Confirmada!',

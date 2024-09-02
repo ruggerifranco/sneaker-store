@@ -7,8 +7,10 @@ import { usePathname } from 'next/navigation';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
 import { useCartContext } from '../context/CartContext';
 import CartMenu from './CartMenu';
+import { useAuthContext } from '../context/AuthContext';
 
 const NavBar = () => {
+  const { user, logout } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const pathname = usePathname();
@@ -28,7 +30,7 @@ const NavBar = () => {
     { href: "/shop", label: "Tienda" },
     { href: "/contact", label: "Contacto" },
     { href: "/aboutUs", label: "Nosotros" },
-    { href: "/admin", label: "Admin" },
+    { href: "/admin", label: "Admin"},
   ];
 
   const menuItemsMobile = [
@@ -54,7 +56,7 @@ const NavBar = () => {
         </div>
         <div className="hidden md:flex space-x-4">
           <ThemeToggle />
-          {menuItems.map((item, index) => (
+          {menuItems.filter(item => !item.requiresAuth || user.logged).map((item, index) => (
             <Link
               key={index}
               href={item.href}
@@ -107,7 +109,7 @@ const NavBar = () => {
           </button>
         </div>
         <div className="flex flex-col space-y-4 p-4">
-          {menuItemsMobile.map((item, index) => (
+          {menuItemsMobile.filter(item => !item.requiresAuth || user.logged).map((item, index) => (
             <Link
               key={index}
               href={item.href}

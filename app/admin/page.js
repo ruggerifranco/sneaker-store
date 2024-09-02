@@ -4,9 +4,9 @@ import { collection, getDocs, setDoc, updateDoc, deleteDoc, doc } from 'firebase
 import { db } from '@/firebase/config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ProductForm from '../components/ProductForm';
+import ProductForm from '../components/admin/ProductForm';
 
-const ProductTable = lazy(() => import('../components/ProductTable'));
+const ProductTable = lazy(() => import('../components/admin/ProductTable'));
 const SkeletonTable = lazy(() => import('../components/SkeletonTable'));
 
 const AdminPage = () => {
