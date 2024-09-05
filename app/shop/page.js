@@ -1,6 +1,5 @@
 import { db } from "@/firebase/config";
 import ProductList from "../components/ProductList";
-import { db } from '@/app/config/firebase';
 import { collection, getDocs } from "firebase/firestore";
 
 const getProducts = async () => {
