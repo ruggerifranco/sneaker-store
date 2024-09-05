@@ -1,5 +1,11 @@
 import React from 'react';
 
+export const metadata = {
+    title: "Sobre nosotros",
+    description: "Exclusivas zapatillas deportivas y de moda",
+    keywords: ['moda', 'zapatillas', 'importadas', 'precios', 'deporte']
+}
+
 const AboutUs = () => {
     return (
         <div className="bg-gray-900 text-white min-h-screen">
