@@ -1,17 +1,26 @@
-'use client'
-import ProductList from '@/app/components/ProductList';
+import ProductList from "../components/ProductList";
 
 const Home = async () => {
-    const res = await fetch('https://sneaker-store-1wk7x572d-francos-projects-29f92f5e.vercel.app/api/productos', {
-        cache: 'no-store',  
-    });
-    const products = await res.json();
+    try {
+        const res = await fetch('https://sneaker-store-1wk7x572d-francos-projects-29f92f5e.vercel.app/api/productos', {
+            cache: 'no-store',
+        });
 
-    return (
-        <>
-            <ProductList category={'all'} data={products} />
-        </>
-    );
+        if (!res.ok) {
+            throw new Error(`Network response was not ok: ${res.statusText}`);
+        }
+
+        const products = await res.json();
+        
+        return (
+            <>
+                <ProductList category={'all'} data={products} />
+            </>
+        );
+    } catch (error) {
+        console.error('Error occurred:', error);
+        return <p>Error loading products. Please try again later.</p>;
+    }
 };
 
 export default Home;
