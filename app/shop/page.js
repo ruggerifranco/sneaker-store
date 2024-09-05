@@ -1,26 +1,24 @@
 import ProductList from "../components/ProductList";
 
-const Home = async () => {
+const getProducts = async () => {
     try {
-        const res = await fetch('https://sneaker-store-1wk7x572d-francos-projects-29f92f5e.vercel.app/api/productos', {
-            cache: 'no-store',
-        });
+        const productosRef = collection(db, "products")
 
-        if (!res.ok) {
-            throw new Error(`Network response was not ok: ${res.statusText}`);
-        }
-
-        const products = await res.json();
-        
-        return (
-            <>
-                <ProductList category={'all'} data={products} />
-            </>
-        );
+        const querySnapshot = await getDocs(productosRef)
+        const docs = querySnapshot.docs.map(doc => doc.data())
+        return docs;
     } catch (error) {
-        console.error('Error occurred:', error);
-        return <p>Error loading products. Please try again later.</p>;
-    }
-};
 
-export default Home;
+    }
+}
+
+const Products = async () => {
+    const products = await getProducts();
+    return (
+        <>
+            <ProductList category={'all'} products={products} />
+        </>
+    )
+}
+
+export default Products
