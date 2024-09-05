@@ -1,3 +1,4 @@
+'use client'
 import ProductList from '@/app/components/ProductList';
 
 const Home = async () => {
