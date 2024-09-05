@@ -23,7 +23,7 @@ export const revalidate = 3600;
 
 const getProducts = async (category) => {
 
-    const data = await fetch(`https://sneaker-store-1wk7x572d-francos-projects-29f92f5e.vercel.app/api/productos/${category}`, {
+    const data = await fetch(`/api/productos/${category}`, {
         cache: 'no-store'
     });
     const productos = await data.json();

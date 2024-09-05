@@ -1,10 +1,18 @@
 import ProductList from '@/app/components/ProductList';
 
-const Home = async () => {
-    const res = await fetch('/api/productos', {
-        cache: 'no-store',  
+const getProducts = async () => {
+
+    const data = await fetch(`/api/productos`, {
+        cache: 'no-store'
     });
-    const products = await res.json();
+    const productos = await data.json();
+    return productos;
+}
+
+
+const Home = async () => {
+
+    const products = await getProducts();
 
     return (
         <>
