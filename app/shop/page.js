@@ -1,26 +1,16 @@
-import { db } from "@/firebase/config";
-import ProductList from "../components/ProductList";
-import { collection, getDocs } from "firebase/firestore";
+import ProductList from '@/app/components/ProductList';
 
-const getProducts = async () => {
-    try {
-        const productosRef = collection(db, "products")
+const Home = async () => {
+    const res = await fetch('/api/productos', {
+        cache: 'no-store',  
+    });
+    const products = await res.json();
 
-        const querySnapshot = await getDocs(productosRef)
-        const docs = querySnapshot.docs.map(doc => doc.data())
-        return docs;
-    } catch (error) {
-
-    }
-}
-
-const Products = async () => {
-    const products = await getProducts();
     return (
         <>
-            <ProductList category={'all'} products={products} />
+            <ProductList category={'all'} data={products} />
         </>
-    )
-}
+    );
+};
 
-export default Products
+export default Home;
