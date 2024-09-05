@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import { useCartContext } from '@/app/context/CartContext';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import SkeletonCard from '@/app/components/SkeletonCard';
@@ -34,7 +34,7 @@ const ProductDetail = () => {
     }
   };
 
-  const getRelatedProducts = async (category) => {
+  const getRelatedProducts = useCallback(async (category) => {
     try {
       const productsRef = collection(db, 'products');
       const q = query(productsRef, where('category', '==', category));
@@ -44,7 +44,7 @@ const ProductDetail = () => {
     } catch (error) {
       return [];
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -58,7 +58,7 @@ const ProductDetail = () => {
     };
 
     fetchProduct();
-  }, [id]);
+  }, [id, getRelatedProducts]);
 
   const handleAddToCart = async () => {
     setIsAdding(true);
@@ -74,8 +74,6 @@ const ProductDetail = () => {
   };
 
   if (isLoading) return <SkeletonCard />;
-
-  if (!product) return <p className="text-gray-900 dark:text-gray-100">Producto no encontrado</p>;
 
   return (
     <>

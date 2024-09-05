@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useCartContext } from '../context/CartContext';
+import Image from 'next/image'; 
 import { useRouter } from 'next/navigation';
 
 const CartMenu = ({ isOpen, onClose }) => {
@@ -29,7 +30,13 @@ const CartMenu = ({ isOpen, onClose }) => {
             {cart.map(item => (
               <div key={item.id} className="flex items-center space-x-4 border-b border-gray-700 pb-2 mb-2">
                 {item.image && (
-                  <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
+                  <Image 
+                  src={item.image} 
+                  alt={item.name} 
+                  width={64} 
+                  height={64} 
+                  className='w-16 h-16 object-cover rounded'
+              />
                 )}
                 <div className="flex-1 flex justify-between items-center space-x-2">
                   <div className="flex-1">

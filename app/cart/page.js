@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Image from 'next/image'; 
 import { useCartContext } from '../context/CartContext';
 import { useRouter } from 'next/navigation';
 import Button from '../components/Button';
@@ -39,7 +40,13 @@ const Cart = () => {
                         {cart.map((item) => (
                             <div key={item.id} className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
                                 <div className="flex items-center">
-                                    <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-md" />
+                                    <Image 
+                                        src={item.image} 
+                                        alt={item.name} 
+                                        width={64} 
+                                        height={64} 
+                                        className="object-cover rounded-md"
+                                    />
                                     <div className="ml-4">
                                         <h2 className="text-lg font-semibold">{item.name}</h2>
                                         <p className="text-gray-600 dark:text-gray-400">{item.description}</p>

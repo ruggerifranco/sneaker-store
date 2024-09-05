@@ -6,8 +6,6 @@ import { NotificationProvider } from "./context/NotificationContext";
 import { AuthProvider } from "./context/AuthContext";
 import ConditionalNavBar from "./components/ConditionalNavBar";
 
-
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {

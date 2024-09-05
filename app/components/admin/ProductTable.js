@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import Image from 'next/image'; 
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
 
 const ProductTable = ({ products, onEdit, onDelete }) => {
@@ -64,7 +65,13 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
                                 <td className='border p-2 text-gray-900 dark:text-gray-100'>{product.category}</td>
                                 <td className='border p-2 text-gray-900 dark:text-gray-100'>{product.description}</td>
                                 <td className='border p-2'>
-                                    <img src={product.image} alt={product.name} className='w-16 h-16 object-cover' />
+                                    <Image 
+                                        src={product.image} 
+                                        alt={product.name} 
+                                        width={64} 
+                                        height={64} 
+                                        className='w-16 h-16 object-cover'
+                                    />
                                 </td>
                                 <td className='border p-2 text-gray-900 dark:text-gray-100'>{product.price}</td>
                                 <td className='border p-2 flex space-x-2 h-20'>
