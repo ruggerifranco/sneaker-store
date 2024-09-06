@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useAuthContext } from "@/app/context/AuthContext";
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';  // Importar useRouter
 
 const LoginForm = () => {
   const { registerUser, loginUser, googleLogin } = useAuthContext();
@@ -15,6 +16,7 @@ const LoginForm = () => {
   });
   const [isRegistering, setIsRegistering] = useState(false);
   const [showPassword, setShowPassword] = useState(false); 
+  const router = useRouter();  // Inicializar useRouter
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -79,7 +81,16 @@ const LoginForm = () => {
         onSubmit={handleSubmit}
         className="bg-blue-900 py-4 px-6 rounded-xl max-w-md w-full space-y-4"
       >
-        <div className="flex justify-center items-center">
+        {/* Botón de volver */}
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="absolute top-4 left-4 text-white text-lg hover:underline"
+        >
+          Volver
+        </button>
+
+        <div className="flex justify-center items-center mb-4">
           <IoPersonOutline className="text-9xl text-white border-2 rounded-full border-white p-4" />
         </div>
 

@@ -120,8 +120,8 @@ const ProductForm = ({ product, onSave, onCancel }) => {
             <h2 className='text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100'>
                 {product ? 'Editar Producto' : 'Agregar Nuevo Producto'}
             </h2>
-            <form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-                <div className='col-span-2'>
+            <form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
+                <div className='grid gap-4 md:grid-cols-2'>
                     <input
                         type='number'
                         name='id'
@@ -132,47 +132,57 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                         required
                         disabled={isSaving}
                     />
+                    <input
+                        type='text'
+                        name='name'
+                        placeholder='Nombre'
+                        value={formData.name}
+                        onChange={handleChange}
+                        className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
+                        required
+                        disabled={isSaving}
+                    />
+                    <input
+                        type='text'
+                        name='category'
+                        placeholder='Categoría'
+                        value={formData.category}
+                        onChange={handleChange}
+                        className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
+                        required
+                        disabled={isSaving}
+                    />
+                    <input
+                        type='text'
+                        name='brand'
+                        placeholder='Marca'
+                        value={formData.brand}
+                        onChange={handleChange}
+                        className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
+                        required
+                        disabled={isSaving}
+                    />
+                    <textarea
+                        name='description'
+                        placeholder='Descripción'
+                        value={formData.description}
+                        onChange={handleChange}
+                        className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
+                        required
+                        disabled={isSaving}
+                    />
+                    <input
+                        type='number'
+                        name='price'
+                        placeholder='Precio'
+                        value={formData.price}
+                        onChange={handleChange}
+                        className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
+                        required
+                        disabled={isSaving}
+                    />
                 </div>
-                <input
-                    type='text'
-                    name='name'
-                    placeholder='Nombre'
-                    value={formData.name}
-                    onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
-                    required
-                    disabled={isSaving}
-                />
-                <input
-                    type='text'
-                    name='category'
-                    placeholder='Categoría'
-                    value={formData.category}
-                    onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
-                    required
-                    disabled={isSaving}
-                />
-                <input
-                    type='text'
-                    name='brand'
-                    placeholder='Marca'
-                    value={formData.brand}
-                    onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
-                    required
-                    disabled={isSaving}
-                />
-                <textarea
-                    name='description'
-                    placeholder='Descripción'
-                    value={formData.description}
-                    onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
-                    required
-                    disabled={isSaving}
-                />
-   
+                <div className='relative'>
                     <input
                         type='file'
                         id='image'
@@ -186,32 +196,24 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                         <FaFileUpload className='mr-2' />
                         {imageFile ? imageFile.name : (formData.image ? 'Cambiar Imagen' : 'Seleccionar Imagen')}
                     </label>
-               
-                <input
-                    type='number'
-                    name='price'
-                    placeholder='Precio'
-                    value={formData.price}
-                    onChange={handleChange}
-                    className='p-2 border rounded dark:bg-gray-800 dark:text-white text-black w-full'
-                    required
-                    disabled={isSaving}
-                />
-                <button
-                    type='submit'
-                    className={`p-2 rounded ${isSaving ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white transition-colors`}
-                    disabled={isSaving}
-                >
-                    {product ? 'Actualizar Producto' : 'Agregar Producto'}
-                </button>
-
-                <button
-                    type='button'
-                    onClick={handleCancel}
-                    className='p-2 rounded bg-red-500 hover:bg-red-600 text-white transition-colors'
-                    disabled={isSaving}
-                > Cancelar
-                </button>
+                </div>
+                <div className='flex flex-col space-y-2'>
+                    <button
+                        type='submit'
+                        className={`p-2 rounded ${isSaving ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} text-white transition-colors`}
+                        disabled={isSaving}
+                    >
+                        {product ? 'Actualizar Producto' : 'Agregar Producto'}
+                    </button>
+                    <button
+                        type='button'
+                        onClick={handleCancel}
+                        className='p-2 rounded bg-red-500 hover:bg-red-600 text-white transition-colors'
+                        disabled={isSaving}
+                    >
+                        Cancelar
+                    </button>
+                </div>
             </form>
         </div>
     );

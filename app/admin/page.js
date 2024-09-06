@@ -5,9 +5,11 @@ import { db } from '@/firebase/config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProductForm from '../components/admin/ProductForm';
+import SkeletonCard from '../components/SkeletonCard';
+import SkeletonAdminCard from '../components/admin/SkeletonTable';
 
 const ProductTable = lazy(() => import('../components/admin/ProductTable'));
-const SkeletonTable = lazy(() => import('../components/SkeletonTable'));
+const SkeletonTable = lazy(() => import('../components/admin/SkeletonTable'));
 
 const AdminPage = () => {
     const [products, setProducts] = useState([]);
@@ -84,9 +86,9 @@ const AdminPage = () => {
                 onCancel={() => setSelectedProduct(null)}
             />
 
-            <Suspense fallback={ <SkeletonTable />  }>
+            <Suspense fallback={ <SkeletonAdminCard />  }>
                 {loading ? (
-                    <SkeletonTable />  
+                    <SkeletonAdminCard />  
                 ) : (
                     <ProductTable 
                         products={products}

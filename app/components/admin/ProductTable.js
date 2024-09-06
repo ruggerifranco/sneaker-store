@@ -3,22 +3,8 @@ import Swal from 'sweetalert2';
 import Image from 'next/image'; 
 import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
 
-const ProductTable = ({ products, onEdit, onDelete }) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [productsPerPage] = useState(10);
-
-    const indexOfLastProduct = currentPage * productsPerPage;
-    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(products.length / productsPerPage); i++) {
-        pageNumbers.push(i);
-    }
-
-    const handleDelete = (id) => {
+const ProductCard = ({ product, onEdit, onDelete }) => {
+    const handleDelete = () => {
         Swal.fire({
             title: '¿Estás seguro?',
             text: '¡No podrás revertir esto!',
@@ -29,7 +15,7 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
             confirmButtonText: 'Sí, eliminarlo!'
         }).then((result) => {
             if (result.isConfirmed) {
-                onDelete(id);
+                onDelete(product.id);
                 Swal.fire(
                     'Eliminado!',
                     'Tu producto ha sido eliminado.',
@@ -40,62 +26,68 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
     };
 
     return (
-        <div className='p-4'>
-            <h2 className='text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100'>
-                Lista de Productos
-            </h2>
-            <div className='overflow-x-auto'>
-                <table className='w-full min-w-full border-collapse bg-white dark:bg-gray-800'>
-                    <thead className='bg-gray-200 dark:bg-gray-700'>
-                        <tr>
-                            <th className='border p-2 text-left text-gray-900 dark:text-gray-100'>Nombre</th>
-                            <th className='border p-2 text-left text-gray-900 dark:text-gray-100'>Marca</th>
-                            <th className='border p-2 text-left text-gray-900 dark:text-gray-100'>Categoría</th>
-                            <th className='border p-2 text-left text-gray-900 dark:text-gray-100'>Descripción</th>
-                            <th className='border p-2 text-left text-gray-900 dark:text-gray-100'>Imagen</th>
-                            <th className='border p-2 text-left text-gray-900 dark:text-gray-100'>Precio</th>
-                            <th className='border p-2 text-left text-gray-900 dark:text-gray-100'>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody className='bg-white dark:bg-gray-800'>
-                        {currentProducts.map((product) => (
-                            <tr key={product.id} className='hover:bg-gray-100 dark:hover:bg-gray-600'>
-                                <td className='border p-2 text-gray-900 dark:text-gray-100'>{product.name}</td>
-                                <td className='border p-2 text-gray-900 dark:text-gray-100'>{product.brand}</td>
-                                <td className='border p-2 text-gray-900 dark:text-gray-100'>{product.category}</td>
-                                <td className='border p-2 text-gray-900 dark:text-gray-100'>{product.description}</td>
-                                <td className='border p-2'>
-                                    <Image 
-                                        src={product.image} 
-                                        alt={product.name} 
-                                        width={64} 
-                                        height={64} 
-                                        className='w-16 h-16 object-cover'
-                                    />
-                                </td>
-                                <td className='border p-2 text-gray-900 dark:text-gray-100'>{product.price}</td>
-                                <td className='border p-2 flex space-x-2 h-20'>
-                                    <button
-                                        onClick={() => onEdit(product)}
-                                        className='p-2 rounded bg-yellow-500 hover:bg-yellow-600 text-white transition-colors'
-                                        aria-label="Editar producto"
-                                    >
-                                        <PencilIcon className='w-5 h-5' />
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(product.id)}
-                                        className='p-2 rounded bg-red-500 hover:bg-red-600 text-white transition-colors'
-                                        aria-label="Eliminar producto"
-                                    >
-                                        <TrashIcon className='w-5 h-5' />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+        <div className='bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md flex flex-col items-center'>
+            <div className='w-32 h-32 mb-4'>
+                <Image 
+                    src={product.image} 
+                    alt={product.name} 
+                    width={128} 
+                    height={128} 
+                    className='w-full h-full object-cover rounded'
+                />
             </div>
-            <div className='mt-4 flex flex-wrap justify-center gap-2'>
+            <h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2'>{product.name}</h3>
+            <p className='text-gray-700 dark:text-gray-300 mb-2'>{product.description}</p>
+            <p className='text-gray-900 dark:text-gray-100 mb-4'>{product.price}</p>
+            <div className='flex space-x-2'>
+                <button
+                    onClick={() => onEdit(product)}
+                    className='p-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded'
+                    aria-label="Editar producto"
+                >
+                    <PencilIcon className='w-5 h-5' />
+                </button>
+                <button
+                    onClick={handleDelete}
+                    className='p-2 bg-red-500 hover:bg-red-600 text-white rounded'
+                    aria-label="Eliminar producto"
+                >
+                    <TrashIcon className='w-5 h-5' />
+                </button>
+            </div>
+        </div>
+    );
+};
+
+const ProductList = ({ products, onEdit, onDelete }) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 9; 
+
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(products.length / productsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    return (
+        <div className='p-4'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4'>
+                {currentProducts.map(product => (
+                    <ProductCard 
+                        key={product.id} 
+                        product={product} 
+                        onEdit={onEdit} 
+                        onDelete={onDelete} 
+                    />
+                ))}
+            </div>
+
+            <div className='flex justify-center gap-2'>
                 {pageNumbers.map(number => (
                     <button
                         key={number}
@@ -110,4 +102,4 @@ const ProductTable = ({ products, onEdit, onDelete }) => {
     );
 };
 
-export default ProductTable;
+export default ProductList;

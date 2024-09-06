@@ -32,53 +32,53 @@ const Checkout = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-            <div className="container mx-auto py-8 px-4">
-                <div className="flex justify-between items-center mb-6">
+            <div className="container mx-auto py-4 sm:py-8 px-4">
+                <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
                     <button
                         onClick={() => router.back()}
-                        className="bg-gray-500 text-white py-2 px-4 rounded-md shadow hover:bg-gray-600 transition duration-300"
+                        className="bg-gray-500 text-white py-2 px-4 rounded-md shadow hover:bg-gray-600 transition duration-300 text-sm"
                     >
                         Volver
                     </button>
-                    <h1 className="text-2xl font-bold">Checkout</h1>
+                    <h1 className="text-xl sm:text-2xl font-bold">Checkout</h1>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-                    <h2 className="text-xl font-semibold mb-4">Detalles del Pedido</h2>
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6 mb-6">
+                    <h2 className="text-lg sm:text-xl font-semibold mb-4">Detalles del Pedido</h2>
                     {cart.length === 0 ? (
-                        <p className="text-lg">Tu carrito está vacío.</p>
+                        <p className="text-base sm:text-lg">Tu carrito está vacío.</p>
                     ) : (
                         <div>
                             {cart.map((item) => (
-                                <div key={item.id} className="flex items-center justify-between p-4 border-b border-gray-300 dark:border-gray-700">
+                                <div key={item.id} className="flex flex-col sm:flex-row items-center justify-between p-4 border-b border-gray-300 dark:border-gray-700">
                                     <div className="flex items-center">
                                         <Image 
-                                        src={item.image} 
-                                        alt={item.name} 
-                                        width={64} 
-                                        height={64} 
-                                        className="w-16 h-16 object-cover rounded-md"
-                                    />
-                                        <div className="ml-4">
-                                            <h3 className="text-lg font-semibold">{item.name}</h3>
-                                            <p className="text-gray-600 dark:text-gray-400">{item.description}</p>
-                                            <p className="text-sm text-gray-600 dark:text-gray-400">Cantidad: {item.quantity}</p>
+                                            src={item.image} 
+                                            alt={item.name} 
+                                            width={48} 
+                                            height={48} 
+                                            className="w-12 h-12 object-cover rounded-md"
+                                        />
+                                        <div className="ml-2 sm:ml-4">
+                                            <h3 className="text-sm sm:text-lg font-semibold">{item.name}</h3>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400">{item.description}</p>
+                                            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Cantidad: {item.quantity}</p>
                                         </div>
                                     </div>
-                                    <div className="text-right">
-                                        <p className="text-xl font-bold">${item.price.toFixed(2)}</p>
+                                    <div className="text-right mt-2 sm:mt-0">
+                                        <p className="text-base sm:text-xl font-bold">${item.price.toFixed(2)}</p>
                                     </div>
                                 </div>
                             ))}
-                            <div className="mt-6 flex justify-between items-center">
-                                <p className="text-xl font-bold">Total: ${getTotal().toFixed(2)}</p>
+                            <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row justify-between items-center">
+                                <p className="text-base sm:text-xl font-bold">Total: ${getTotal().toFixed(2)}</p>
                             </div>
                         </div>
                     )}
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h2 className="text-xl font-semibold mb-4">Información de Pago</h2>
+                <form onSubmit={handleSubmit(onSubmit)} className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6">
+                    <h2 className="text-lg sm:text-xl font-semibold mb-4">Información de Pago</h2>
 
                     <div className="mb-4">
                         <label htmlFor="name" className="block text-sm font-medium">Nombre Completo</label>
